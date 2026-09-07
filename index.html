@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#101816">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Saldo">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icon.svg">
+  <link rel="stylesheet" href="styles.css">
+  <title>Saldo — เงินของฉัน</title>
+</head>
+<body>
+<main class="shell">
+  <header class="topbar">
+    <a class="mark" href="#top" aria-label="Saldo หน้าหลัก"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 22.5V14M16 22.5V7M27 22.5V10"/><path d="M3 24.5h26"/></svg></a>
+    <div><p class="eyebrow" id="today-label">วันนี้</p><h1>ภาพรวมเงินของฉัน</h1></div>
+    <button class="icon-button" id="settings-btn" aria-label="ตั้งค่า"><svg viewBox="0 0 24 24"><path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-2.1 2.1-.06-.06a1.7 1.7 0 0 0-1.88-.34 1.7 1.7 0 0 0-1.04 1.55V20.3h-3v-.1A1.7 1.7 0 0 0 10.68 18.65a1.7 1.7 0 0 0-1.88.34l-.06.06-2.1-2.1.06-.06A1.7 1.7 0 0 0 7.04 15a1.7 1.7 0 0 0-1.55-1.04h-.1v-3h.1A1.7 1.7 0 0 0 7.04 9.92 1.7 1.7 0 0 0 6.7 8.04l-.06-.06 2.1-2.1.06.06a1.7 1.7 0 0 0 1.88.34 1.7 1.7 0 0 0 1.04-1.55v-.1h3v.1a1.7 1.7 0 0 0 1.04 1.55 1.7 1.7 0 0 0 1.88-.34l.06-.06 2.1 2.1-.06.06a1.7 1.7 0 0 0-.34 1.88 1.7 1.7 0 0 0 1.55 1.04h.1v3h-.1A1.7 1.7 0 0 0 19.4 15Z"/></svg></button>
+  </header>
+
+  <section class="balance-card">
+    <p>เงินคงเหลือ</p><strong id="balance">฿0</strong>
+    <div class="balance-meta"><span id="income-summary">รับเดือนนี้ ฿0</span><span id="expense-summary">จ่ายเดือนนี้ ฿0</span></div>
+  </section>
+
+  <section class="split stats" aria-label="สรุปวันนี้">
+    <article><span class="tiny-icon down">↓</span><p>วันนี้ใช้ไป</p><strong id="today-expense">฿0</strong><small id="budget-caption">ยังไม่ได้ตั้งงบ</small></article>
+    <article><span class="tiny-icon up">↑</span><p>วันนี้รับเข้า</p><strong id="today-income">฿0</strong><small id="days-caption">ตั้งรายได้เพื่อคาดการณ์</small></article>
+  </section>
+
+  <section class="card chart-card">
+    <div class="section-head"><div><p class="eyebrow">แนวโน้ม</p><h2>ใช้จ่าย 7 วัน</h2></div><button class="text-button" id="period-btn">7 วัน</button></div>
+    <svg id="trend-chart" viewBox="0 0 320 126" role="img" aria-label="กราฟรายจ่าย 7 วัน"></svg>
+  </section>
+
+  <section class="composer" aria-label="เพิ่มรายการหรือถามผู้ช่วย">
+    <label for="entry-text">บันทึกหรือถามผู้ช่วย</label>
+    <div class="composer-row"><textarea id="entry-text" rows="2" placeholder="เช่น เมื่อวานกินข้าว 65 จ่ายเงินสด"></textarea><button id="analyze-btn" class="send-button" aria-label="วิเคราะห์ข้อความ"><svg viewBox="0 0 24 24"><path d="m5 12 14-7-4 14-3-5-7-2Z"/><path d="m12 12 3-3"/></svg></button></div>
+    <p class="hint">พิมพ์ได้อิสระ เช่น “เงินเดือนเข้า 23,000” หรือ “เดือนนี้ใช้มากไปไหม”</p>
+  </section>
+
+  <section class="card category-card">
+    <div class="section-head"><div><p class="eyebrow">เดือนนี้</p><h2>ใช้จ่ายตามหมวด</h2></div><button class="text-button" id="categories-btn">ดูทั้งหมด</button></div>
+    <div id="categories" class="category-list"></div>
+  </section>
+
+  <section class="recent"><div class="section-head"><div><p class="eyebrow">ล่าสุด</p><h2>รายการของคุณ</h2></div><button class="text-button" id="export-btn">ส่งออก</button></div><div id="transactions" class="transactions"></div></section>
+</main>
+
+<nav class="bottom-nav" aria-label="เมนูหลัก"><button class="active" aria-label="ภาพรวม"><svg viewBox="0 0 24 24"><path d="M4 10.5 12 4l8 6.5v8a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 18.5Z"/><path d="M9 20v-6h6v6"/></svg></button><button id="add-fab" class="fab" aria-label="เพิ่มรายการ">+</button><button id="insights-btn" aria-label="ถามผู้ช่วย"><svg viewBox="0 0 24 24"><path d="M12 3a7 7 0 0 0-7 7c0 2.6 1.5 4.85 3.7 5.96V19h6.6v-3.04A6.99 6.99 0 0 0 12 3Z"/><path d="M9 22h6M8.5 11.5h7"/></svg></button></nav>
+
+<div id="modal-root"></div>
+<input id="import-file" type="file" accept="application/json,.json" hidden>
+<script src="app.js"></script>
+</body>
+</html>
